@@ -58,13 +58,13 @@ Create a `.env` file in the root directory:
 - Upload your astronomy images.
 - Like and report images in the gallery.
 - View and manage your uploads in the "My Uploads" section.
+- If the reports on a image > 5 , then the image will be removed automatically.
 
 ---
 
 ## 🛡️ Security Notes
 
 - Passwords are hashed with bcrypt.
-- User input is sanitized and HTTP headers are secured.
 - Sessions are protected and sensitive data is never committed.
 
 ---

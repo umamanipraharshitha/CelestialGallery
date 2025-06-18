@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - Astro Image Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Reset and base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #f5f7fa;
+      color: #374151;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    form {
+      background: #ffffff;
+      padding: 32px 28px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      transition: box-shadow 0.3s ease;
+    }
+
+    form:hover,
+    form:focus-within {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 32px;
+      color: #111827;
+      text-align: center;
+      user-select: none;
+      letter-spacing: -0.015em;
+    }
+
+    label {
+      color: #4b5563;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      font-size: 1rem;
+      font-weight: 400;
+      background: #f9fafb;
+      color: #111827;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      outline-offset: 3px;
+    }
+
+    input[type="text"]::placeholder,
+    input[type="password"]::placeholder {
+      color: #9ca3af;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+      outline: none;
+      background: #ffffff;
+      color: #111827;
+    }
+
+    button {
+      margin-top: 28px;
+      padding: 14px 0;
+      border-radius: 12px;
+      border: none;
+      background-color: #10b981;
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+      transition:
+        background-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.15s ease;
+      user-select: none;
+    }
+
+    button:hover,
+    button:focus {
+      background-color: #0f9c6e;
+      box-shadow:
+        0 6px 20px rgba(16, 185, 129, 0.45);
+      outline: none;
+      transform: scale(1.02);
+    }
+
+    button:active {
+      transform: scale(0.98);
+      box-shadow: 0 3px 12px rgba(16, 185, 129, 0.3);
+      transition-duration: 0.1s;
+    }
+
+    p {
+      margin-top: 20px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #6b7280;
+      text-align: center;
+      user-select: none;
+    }
+
+    a {
+      color: #10b981;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    a:hover,
+    a:focus {
+      color: #0f9c6e;
+      outline: none;
+      text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      form {
+        padding: 28px 20px;
+      }
+
+      h2 {
+        font-size: 1.75rem;
+        margin-bottom: 24px;
+      }
+
+      button {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <form action="/login" method="POST" novalidate>
+    <h2>Login</h2>
+    <label>
+      Username:
+      <input type="text" name="username" placeholder="Enter your username" required />
+    </label>
+    <label>
+      Password:
+      <input type="password" name="password" placeholder="Enter your password" required />
+    </label>
+    <button type="submit">Login</button>
+    <p>No account? <a href="/register">Register here</a></p>
+  </form>
+</body>
+</html>
+

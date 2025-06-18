@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Astro Image Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background: #f9fafb;
+      color: #374151;
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      user-select: none;
+    }
+
+    header h1 {
+      font-weight: 700;
+      font-size: 2.25rem;
+      line-height: 1.2;
+      margin: 0;
+      color: #111827;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    nav a,
+    nav button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #4b5563;
+      background: transparent;
+      border: 1.5px solid transparent;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: 
+        background-color 0.3s ease, 
+        color 0.3s ease, 
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+      user-select: none;
+    }
+
+    nav button {
+      border: 1.5px solid #4b5563;
+      background-color: #ffffff;
+    }
+
+    nav a:hover,
+    nav button:hover,
+    nav a:focus-visible,
+    nav button:focus-visible {
+      background-color: #10b981;
+      color: #ffffff;
+      border-color: #10b981;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+      outline: none;
+    }
+
+    nav a:focus-visible,
+    nav button:focus-visible {
+      outline-offset: 2px;
+    }
+
+    nav button:active,
+    nav a:active {
+      background-color: #059669;
+      border-color: #059669;
+      box-shadow: none;
+      transform: scale(0.98);
+      transition-duration: 0.15s;
+    }
+
+    main {
+      flex-grow: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 60px auto 80px;
+      padding: 0 24px;
+    }
+
+    section h2 {
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 40px;
+      color: #111827;
+      user-select: none;
+      border-bottom: 3px solid #10b981;
+      display: inline-block;
+      padding-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    #gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    /* Gallery item cards */
+    #gallery .gallery-item {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      user-select: none;
+      transition:
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+    }
+
+    #gallery .gallery-item:hover,
+    #gallery .gallery-item:focus-within {
+      outline: none;
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
+      transform: translateY(-6px);
+      z-index: 10;
+    }
+
+    #gallery img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 1px solid #e5e7eb;
+      user-select: none;
+    }
+
+    #gallery .caption {
+      padding: 16px 20px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #374151;
+      flex-grow: 1;
+    }
+
+    #gallery .caption:hover,
+    #gallery .caption:focus {
+      color: #10b981;
+      outline: none;
+      transition: color 0.2s ease;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      main {
+        margin: 48px auto 64px;
+        padding: 0 16px;
+      }
+      #gallery .gallery-item:hover,
+      #gallery .gallery-item:focus-within {
+        transform: none;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+      }
+      #gallery img {
+        height: 160px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 16px 20px;
+      }
+      main {
+        margin: 40px auto 48px;
+        padding: 0 12px;
+      }
+      header h1 {
+        font-size: 1.75rem;
+      }
+      section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 28px;
+      }
+      #gallery {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 24px;
+      }
+      #gallery img {
+        height: 140px;
+      }
+    }
+    /* Well-formed gallery card styling */
+
+#gallery .gallery-item {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+#gallery .gallery-item:hover,
+#gallery .gallery-item:focus-within {
+  box-shadow: 0 12px 28px rgba(16, 185, 129, 0.3);
+  transform: translateY(-6px);
+  outline: none;
+  z-index: 10;
+}
+
+.gallery-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  user-select: none;
+  background-color: #f0f0f0; /* fallback background */
+}
+
+.caption {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #111827;
+  padding: 20px 20px 8px;
+}
+
+.description {
+  font-weight: 400;
+  font-size: 1rem;
+  color: #4b5563;
+  padding: 0 20px 16px;
+  line-height: 1.4;
+  flex-grow: 1;
+}
+
+.uploader {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #6b7280;
+  padding: 0 20px 16px;
+}
+
+.likes-reports {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 20px 20px;
+}
+
+.like-btn,
+.report-btn {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 12px;
+  background-color: #10b981;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.like-btn:hover,
+.report-btn:hover:not(:disabled) {
+  background-color: #059669;
+}
+
+.report-btn:disabled {
+  background-color: #d1d5db;
+  cursor: not-allowed;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  #gallery .gallery-item:hover,
+  #gallery .gallery-item:focus-within {
+    transform: none;
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+  }
+  .gallery-image {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-image {
+    height: 140px;
+  }
+  .caption {
+    font-size: 1.1rem;
+  }
+  .description {
+    font-size: 0.9rem;
+  }
+  .like-btn,
+  .report-btn {
+    font-size: 0.9rem;
+    padding: 10px 8px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Astro Image Gallery</h1>
+    <nav>
+      <form id="logoutForm" action="/logout" method="POST" style="display:inline;">
+        <button type="submit">Logout</button>
+      </form>
+      <a href="/login" id="loginLink">Login</a>
+      <a href="/register" id="registerLink">Register</a>
+      <a href="/my-uploads" id="myUploadsLink">My Uploads</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Gallery</h2>
+      <div id="gallery"></div>
+    </section>
+  </main>
+  <script src="/js/script.js"></script>
+</body>
+</html>
+
